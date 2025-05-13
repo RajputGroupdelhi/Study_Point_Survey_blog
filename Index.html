@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Point Log</title>
+  <style>
+    /* Reset some basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Background and font */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+
+    /* Centering the form container */
+    .container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+
+    /* Logo Styling */
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      max-width: 150px; /* Adjust the size of the logo */
+      height: auto;
+    }
+
+    /* Form styling */
+    .form-container {
+      margin-bottom: 20px;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form-container button:hover {
+      background-color: #005f8a;
+    }
+
+    /* Links for form switching */
+    .link {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .link a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo Section -->
+    <div class="logo">
+      <img src="storage/emulated/0/DCIM/Camera/Screenshot_2025-05-13-06-36-53-53_7352322957d4404136654ef4adb64504.jpg" alt="Study Point Logo" /> <!-- Replace with your logo URL -->
+    </div>
+
+    <h2 id="formTitle">Study Point Log</h2>
+    
+    <!-- Registration Form -->
+    <div id="registerForm" class="form-container">
+      <h3>Register</h3>
+      <input type="text" id="name" placeholder="Name" />
+      <input type="date" id="dob" placeholder="Date of Birth" />
+      <input type="text" id="studentId" placeholder="Student ID" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="submitData('register')">Register</button>
+      <div class="link">
+        <a href="javascript:void(0);" onclick="showLoginForm()">Login</a> | <a href="javascript:void(0);" onclick="showForgotPasswordForm()">Forgot Password?</a>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginForm" class="form-container" style="display:none;">
+      <h3>Login</h3>
+      <input type="text" id="loginStudentId" placeholder="Student ID" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <button onclick="submitData('login')">Login</button>
+      <div class="link">
+        <a href="javascript:void(0);" onclick="showRegisterForm()">Register</a> | <a href="javascript:void(0);" onclick="showForgotPasswordForm()">Forgot Password?</a>
+      </div>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div id="forgotPasswordForm" class="form-container" style="display:none;">
+      <h3>Forgot Password</h3>
+      <input type="text" id="forgotStudentId" placeholder="Student ID" />
+      <button onclick="submitData('forgot_password')">Submit</button>
+      <div class="link">
+        <a href="javascript:void(0);" onclick="showLoginForm()">Login</a> | <a href="javascript:void(0);" onclick="showRegisterForm()">Register</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Show the Register Form
+    function showRegisterForm() {
+      document.getElementById("formTitle").innerText = "Register";
+      document.getElementById("registerForm").style.display = "block";
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("forgotPasswordForm").style.display = "none";
+    }
+
+    // Show the Login Form
+    function showLoginForm() {
+      document.getElementById("formTitle").innerText = "Login";
+      document.getElementById("registerForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("forgotPasswordForm").style.display = "none";
+    }
+
+    // Show the Forgot Password Form
+    function showForgotPasswordForm() {
+      document.getElementById("formTitle").innerText = "Forgot Password";
+      document.getElementById("registerForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("forgotPasswordForm").style.display = "block";
+    }
+
+    // Submit Data (Register, Login, Forgot Password)
+    function submitData(action) {
+      var url = "https://script.google.com/macros/s/AKfycbxZB.../exec";  // Replace with your Web App URL
+
+      if (action == 'register') {
+        const name = document.getElementById("name").value;
+        const dob = document.getElementById("dob").value;
+        const studentId = document.getElementById("studentId").value;
+        const password = document.getElementById("password").value;
+
+        fetch(url, {
+          method: "POST",
+          body: JSON.stringify({ action: 'register', name, dob, studentId, password }),
+          headers: { "Content-Type": "application/json" }
+        })
+        .then(res => res.text())
+        .then(data => {
+          alert("Registered Successfully!");
+          showLoginForm();  // Show login form after successful registration
+        })
+        .catch(err => {
+          alert("Error: " + err);
+        });
+      }
+
+      if (action == 'login') {
+        const studentId = document.getElementById("loginStudentId").value;
+        const password = document.getElementById("loginPassword").value;
+
+        fetch(url, {
+          method: "POST",
+          body: JSON.stringify({ action: 'login', studentId, password }),
+          headers: { "Content-Type": "application/json" }
+        })
+        .then(res => res.text())
+        .then(data => {
+          if (data === "Login Success") {
+            alert("Login Successful!");
+          } else {
+            alert("Invalid credentials");
+          }
+        })
+        .catch(err => {
+          alert("Error: " + err);
+        });
+      }
+
+      if (action == 'forgot_password') {
+        const studentId = document.getElementById("forgotStudentId").value;
+
+        fetch(url, {
+          method: "POST",
+          body: JSON.stringify({ action: 'forgot_password', studentId }),
+          headers: { "Content-Type": "application/json" }
+        })
+        .then(res => res.text())
+        .then(data => {
+          alert(data);  // Display password or error message
+        })
+        .catch(err => {
+          alert("Error: " + err);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
